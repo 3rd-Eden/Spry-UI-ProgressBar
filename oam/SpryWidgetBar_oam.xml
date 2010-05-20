@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget 
+		xmlns="http://openajax.org/metadata"
+		xmlns:dw="http://ns.adobe.com/dreamweaver"
+		spec="1.0"
+	
+		id="http://go.spry-it.com/progressbar"
+		name="Spry Widget Progress Bar"
+		version="0.1"
+		aboutUri="http://go.spry-it.com/progressbar">
+	<author name="Arnout Kazemier" website="http://www.Spry-it.com" organization="Spry-it" email="info@3rd-Eden.com" />
+	<icon src="../images/SpryLogo.png" width="98" height="98" />
+	<license type="text/html">
+    	<![CDATA[
+			<p>Copyright &copy; 2010. Spry-it.com All rights reserved.</p>
+			<p>Redistribution and use in source and binary forms, with or without
+			modification, are permitted provided that the following conditions are met:</p>
+			<ul>
+			<li>Redistributions of source code must retain the above copyright notice,
+			this list of conditions and the following disclaimer.</li>
+			<li>Redistributions in binary form must reproduce the above copyright notice,
+			this list of conditions and the following disclaimer in the documentation
+			and/or other materials provided with the distribution.</li>
+			<li>Neither the name of Adobe Systems Incorporated nor the names of its
+			contributors may be used to endorse or promote products derived from this
+			software without specific prior written permission.</li>
+			</ul>
+			
+			<p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot;
+			AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+			IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+			ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+			LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+			CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+			SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+			INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+			CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+			ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+			POSSIBILITY OF SUCH DAMAGE.</p>
+	  	]]>
+	</license>
+	<description type="text/html">
+   		<![CDATA[
+			<p>A Spry Progress bar</p>
+		]]>
+  	</description>
+	<category name="Spry UI" />
+	<!-- 
+	<library name="Spry" version="1.7" src="http://labs.adobe.com/technologies/spry/includes/">
+		<require type="javascript" src="SpryDOMUtils.js" target="Spry-UI-1.7/includes/SpryDOMUtils.js"></require>
+		<require type="javascript" src="SpryDOMEffects.js" target="Spry-UI-1.7/includes/SpryDOMEffects.js"></require>
+		<require type="javascript" src="SpryWidget.js" target="Spry-UI-1.7/includes/SpryWidget.js"></require>
+	</library>
+	-->
+	<require type="javascript" src="../js/SpryDOMUtils.js" target="Spry-UI-1.7/includes/SpryDOMUtils.js"></require>
+	<require type="javascript" src="../js/SpryDOMEffects.js" target="Spry-UI-1.7/includes/SpryDOMEffects.js"></require>
+	<require type="javascript" src="../js/SpryWidget.js" target="Spry-UI-1.7/includes/SpryWidget.js"></require>
+	<require type="javascript" src="../js/SpryProgressBar.js" target="Spry-UI-1.7/includes/SpryProgressBar.js"></require>
+	<content>
+<![CDATA[
+<div id="__WID__" class="progress">
+	<div class="bar"></div>
+	<span class="indicator">Progress: <em id="__WID___count">0</em>%</span>
+</div>
+]]>
+	</content>
+	<dw:css>
+<![CDATA[
+#__WID__.progress {
+	position: relative;
+	display :block;
+	width: @@designWidth@@;
+	background: @@designBackgroundColor@@;
+	padding: @@designPadding@@;
+	border: @@designBorderPx@@ solid @@designBorderColor@@;
+	
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-radius: 3px;
+}
+#__WID__.progress .bar {
+	display:block;
+	height:@@designHeight@@;
+	background: @@designBackgroundBarColor@@;
+}
+#__WID__.progress .indicator {
+	position:absolute; 
+	top: @@indicatorTop@@; 
+	left: @@indicatorLeft@@; 
+	display:block
+}
+]]>
+	</dw:css>
+	<javascript location="afterContent">
+<![CDATA[
+(function(){
+	@@exposeWidget@@__WID__ = new Spry.Widget.ProgressBar("#__WID__", {
+		percentage: @@startPercentage@@,
+		duration: @@defaultDuration@@,
+		autoStart: @@autoStart@@,
+		hideOnComplete: @@hideOnComplete@@
+	});
+	// remove the observer and the complete __WID___count element if you do not want to show a progress indicator.
+	__WID__.addObserver({
+			onPercentageChanged: function( widget, data ){
+				Spry.$('__WID___count').innerHTML =  data ;
+			}
+		});
+})()
+]]>
+  	</javascript>
+  	<properties name="Binding &amp; Behavior">
+		<properties name="Binding">
+      		<property name="__WID__" datatype="String" format="id" defaultValue="progressBar">
+				<title>Widget ID</title>
+			</property>
+    </properties>
+    <properties name="Behavior">
+		<property name="startPercentage" datatype="Number" isInteger="true" minimum="0" maximum="100" defaultValue="0">
+			<title>Start percentage</title>
+      	</property>
+      	<property name="autoStart" datatype="Boolean" defaultValue="true">
+			<title>Auto Start ProgressBar</title>
+      	</property>
+      	<property name="hideOnComplete" datatype="Boolean" defaultValue="false">
+        	<title>Hide ProgressBar once completed</title>
+      	</property>
+      	<property name="defaultDuration" datatype="Number" isInteger="true" minimum="100" defaultValue="20000">
+        	<title>Default duration</title>
+      	</property>
+		<property name="exposeWidget" datatype="String" defaultValue="window.">
+			<title>Expose widget as JavaScript global</title>
+			<options>
+				<option value="window.">
+					<label>Yes</label>
+				</option>
+				<option value="var ">
+					<label>No</label>
+				</option>
+			</options>
+		</property>
+    </properties>
+  </properties>
+  <properties name="Design">
+  	<properties name="Design">
+		<property name="designBackgroundColor" datatype="String" format="color" defaultValue="#FFFFFF">
+			<title>Background color</title>
+		</property>
+		<property name="designBackgroundBarColor" datatype="String" format="color" defaultValue="#009933">
+			<title>Progress bar color</title>
+		</property>
+		<property name="designBorderColor" datatype="String" format="color" defaultValue="#CCCCCC">
+			<title>Border color</title>
+		</property>
+		<property name="designBorderPx" datatype="String" format="length" defaultValue="1px">
+			<title>Border size</title>
+		</property>
+		<property name="designPadding" datatype="String" format="length" defaultValue="2px">
+			<title>Progress Padding</title>
+		</property>
+		<property name="indicatorTop" datatype="String" format="length" defaultValue="5px">
+			<title>Top progress indicator</title>
+		</property>
+		<property name="indicatorLeft" datatype="String" format="length" defaultValue="5px">
+			<title>Left progress indicator</title>
+		</property>
+	</properties>
+	<properties name="Dimensions">
+		<property name="designWidth" datatype="String" format="length" defaultValue="550px">
+			<title>Progress bar width</title>
+		</property>
+		<property name="designHeight" datatype="String" format="length" defaultValue="25px">
+			<title>Progress bar height</title>
+		</property>
+	</properties>
+  </properties>
+</widget>
