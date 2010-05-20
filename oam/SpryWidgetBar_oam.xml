@@ -9,10 +9,10 @@
 		version="0.1"
 		aboutUri="http://go.spry-it.com/progressbar">
 	<author name="Arnout Kazemier" website="http://www.Spry-it.com" organization="Spry-it" email="info@3rd-Eden.com" />
-	<icon src="../images/SpryLogo.png" width="98" height="98" />
+	<icon src="SpryLogo.png" width="98" height="98" />
 	<license type="text/html">
     	<![CDATA[
-			<p>Copyright &copy; 2010. Spry-it.com All rights reserved.</p>
+			<p>Copyright &copy; 2010. 3rd-Eden.com All rights reserved.</p>
 			<p>Redistribution and use in source and binary forms, with or without
 			modification, are permitted provided that the following conditions are met:</p>
 			<ul>
@@ -21,7 +21,7 @@
 			<li>Redistributions in binary form must reproduce the above copyright notice,
 			this list of conditions and the following disclaimer in the documentation
 			and/or other materials provided with the distribution.</li>
-			<li>Neither the name of Adobe Systems Incorporated nor the names of its
+			<li>Neither the name of 3rd-Eden.com nor the names of its
 			contributors may be used to endorse or promote products derived from this
 			software without specific prior written permission.</li>
 			</ul>
@@ -45,17 +45,10 @@
 		]]>
   	</description>
 	<category name="Spry UI" />
-	<!-- 
-	<library name="Spry" version="1.7" src="http://labs.adobe.com/technologies/spry/includes/">
-		<require type="javascript" src="SpryDOMUtils.js" target="Spry-UI-1.7/includes/SpryDOMUtils.js"></require>
-		<require type="javascript" src="SpryDOMEffects.js" target="Spry-UI-1.7/includes/SpryDOMEffects.js"></require>
-		<require type="javascript" src="SpryWidget.js" target="Spry-UI-1.7/includes/SpryWidget.js"></require>
-	</library>
-	-->
-	<require type="javascript" src="../js/SpryDOMUtils.js" target="Spry-UI-1.7/includes/SpryDOMUtils.js"></require>
-	<require type="javascript" src="../js/SpryDOMEffects.js" target="Spry-UI-1.7/includes/SpryDOMEffects.js"></require>
-	<require type="javascript" src="../js/SpryWidget.js" target="Spry-UI-1.7/includes/SpryWidget.js"></require>
-	<require type="javascript" src="../js/SpryProgressBar.js" target="Spry-UI-1.7/includes/SpryProgressBar.js"></require>
+	<require type="javascript" src="1.7/SpryDOMUtils.js" target="Spry-UI-1.7/SpryDOMUtils.js"></require>
+	<require type="javascript" src="1.7/SpryDOMEffects.js" target="Spry-UI-1.7/SpryDOMEffects.js"></require>
+	<require type="javascript" src="1.7/SpryWidget.js" target="Spry-UI-1.7/SpryWidget.js"></require>
+	<require type="javascript" src="1.7/SpryProgressBar.js" target="Spry-UI-1.7/SpryProgressBar.js"></require>
 	<content>
 <![CDATA[
 <div id="__WID__" class="progress">
