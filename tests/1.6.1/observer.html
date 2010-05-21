@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Test: increasing the percentage</title>
+<link type="text/css" rel="stylesheet" href="../../shared/default.css" />
+<script type="text/javascript" src="../../1.6.1/SpryDOMUtils.js"></script>
+<script type="text/javascript" src="../../1.6.1/SpryEffects.js"></script>
+<script type="text/javascript" src="../../1.6.1/SpryProgressBar.js"></script>
+
+<!-- used for the test cases -->
+<script type="text/javascript" src="../../shared/evidence.js"></script>
+<script type="text/javascript">
+Evidence.TestCase.extend( 'increasepercentage', {
+	test_1onComplete_regular: function( t ){
+		t.pause();
+		progress.setPercentage( "100%", 5000 );
+		
+		var observer = {
+			onComplete: function(){
+				t.resume( function(){
+					t.assertEqual( 100, progress.percentage );
+					progress.removeObserver( observer );
+				})
+			}
+		};
+		
+		progress.addObserver( observer );
+	},
+	test_2onReset: function( t ){
+		t.pause();
+		
+		var observer = {
+			onReset: function(){
+				t.resume( function(){
+					t.assertEqual( 0, progress.percentage );
+					progress.removeObserver( observer );
+				})
+			}
+		};
+		
+		progress.addObserver( observer );
+		setTimeout( function(){ progress.reset(); }, 500 );
+	},
+	
+	test_3onComplete_setPercentage: function( t ){
+		t.pause();
+		setTimeout( function(){ progress.setPercentage( "70%", 5000 ); }, 1500 );
+		
+		var observer = {
+			onComplete: function(){
+				t.resume( function(){
+					t.assertEqual( 100, progress.percentage );
+					progress.removeObserver( observer );
+					progress.reset();
+				})
+			}
+		};
+		
+		progress.addObserver( observer );
+		
+		setTimeout( function(){ progress.complete() }, 2500 );
+	},
+	
+	test_4onPercentageSet: function( t ){
+		t.pause();
+		setTimeout( function(){ progress.setPercentage( "70%", 5000 ); progress.addObserver( observer ); }, 1500 );
+		
+		var observer = {
+			onPercentageSet: function( osbserver, data ){
+				t.resume( function(){
+					t.assertEqual( 70, data );
+					progress.removeObserver( observer );
+				})
+			}
+		};
+	}
+});
+</script>
+</head>
+
+<body>
+<div class="progress" id="example1">
+    <span class="bar"><b></b></span>
+</div>	
+<script type="text/javascript">
+// construct the progress bars
+var progress = new Spry.Widget.ProgressBar( "#example1" );
+</script>
+</body>
+</html>
