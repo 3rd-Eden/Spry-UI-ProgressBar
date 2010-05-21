@@ -1,5 +1,3 @@
-"use strict";
-
 (function(){
 // start component
 if (typeof Spry === "undefined" || !Spry.Utils || !Spry.$$ || !Spry.Effect ){
@@ -175,7 +173,7 @@ Spry.Widget.ProgressBar.prototype.remove = function( percentage, duration ){
 };
 
 // reset the progress bar back to 0;
-Spry.Widget.ProgressBar.prototype.reset = function( ){
+Spry.Widget.ProgressBar.prototype.reset = function(){
 	var that = this;
 	
 	if( this.hidden ){
@@ -205,9 +203,9 @@ Spry.Widget.ProgressBar.prototype.getPercentage = function( total ){
 
 // shows the widget
 Spry.Widget.ProgressBar.prototype.show = function(){
-	this.element.style.display = "";
 	if( this.hidden ){
 		this.hidden = false;
+		this.element.style.display = "";
 		(new Spry.Effect.CSSAnimator( this.element , "opacity: 1", 
 				{ 
 					duration: 500
@@ -216,10 +214,10 @@ Spry.Widget.ProgressBar.prototype.show = function(){
 	}
 };
 
+// hides the widget
 Spry.Widget.ProgressBar.prototype.hide = function(){
 	var that = this;
 	this.hidden = true;
-	
 	(new Spry.Effect.CSSAnimator( this.element , "opacity: 0", 
 			{ 
 				duration: 500, 

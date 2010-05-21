@@ -1,11 +1,15 @@
+var Spry;
+if (!Spry) Spry = {};
+if (!Spry.Widget) Spry.Widget = {};
+
 Spry.Widget.ProgressBar = function( element, opts ){
 	var that = this;
 
 	Spry.Utils.Notifier.call(this);
 
-	Spry.Utils.setOptions(this, Spry.Widget.ProgressBar.config);
+	Spry.Widget.ProgressBar.setOptions(this, Spry.Widget.ProgressBar.config);
 
-	Spry.Utils.setOptions(this, opts);
+	Spry.Widget.ProgressBar.setOptions(this, opts);
 
 	this.version = "0.1.0";	// version number pattern: major, minor, bugfix
 	this.element = Spry.$$( element )[0];
@@ -14,12 +18,16 @@ Spry.Widget.ProgressBar = function( element, opts ){
 	this.currentWidth = this.initialWidth;
 	this.counter = 0;
 	
-	// forces the bar to its default size
-	this.bar[0].style.width = (this.currentWidth = this.initialWidth / 100 * this.percentage);
-	
-	if( this.autoStart ){
-		this.setPercentage( 100, this.duration );
-	}
+	// this activates or resets the progress with the supplied value
+	this.setPercentage( 
+		// set the percentage to the supplied "default" percentage
+		this.percentage, 
+		
+		// just do it quick so user will not notice it
+		1, 
+		
+		// do we have a auto start ? if yes, complete the progress bar with the supplied duration
+		this.autoStart ? function(){ that.setPercentage( 100, that.duration ); }: false );
 
 	this.addObserver({
 		onComplete: function(){
@@ -55,6 +63,19 @@ Spry.Widget.ProgressBar.config = {
 	
 	// what className is used for the bar
 	barClass: "bar"
+};
+
+Spry.Widget.ProgressBar.setOptions = function( obj, optionsObj, ignoreUndefinedProps ){
+	if (!optionsObj) return;
+	
+	var optionName;	
+	for ( optionName in optionsObj )
+	{
+		if ( ignoreUndefinedProps && optionsObj[optionName] == "undefined" )
+			continue;
+			
+		obj[optionName] = optionsObj[optionName];
+	}
 };
 
 Spry.Widget.ProgressBar.prototype = new Spry.Utils.Notifier();
@@ -183,11 +204,33 @@ Spry.Widget.ProgressBar.prototype.getPercentage = function( total ){
 
 // shows the widget
 Spry.Widget.ProgressBar.prototype.show = function(){
-	this.element.style.display = "";
-	this.hidden = false;
+	if( this.hidden ){
+		this.hidden = false;
+		this.element.style.display = "";
+		Spry.Effect.DoFade(
+			this.element, 
+			{ 
+				from:0, 
+				to:100,
+				duration:500
+			}
+		)
+	}
 };
 
+// hides the widget
 Spry.Widget.ProgressBar.prototype.hide = function(){
-	this.element.style.display = "none";
+	var self = this;
 	this.hidden = true;
+	Spry.Effect.DoFade(
+		this.element, 
+		{ 
+			from:100, 
+			to: 0,
+			duration:500,
+			finish: function(){
+				self.element.style.display = "none";
+			}
+		}
+	)
 };

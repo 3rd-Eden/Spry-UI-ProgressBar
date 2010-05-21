@@ -71,9 +71,14 @@
 	-webkit-border-radius: 3px;
 	border-radius: 3px;
 }
+/*
+	The !important on the height declarating prevents issue in Opera
+	where it for some weird reason ignored the height propperty. It might not
+	be needed for every deployment but better save than sorry
+*/
 #__WID__.progress .bar {
 	display:block;
-	height:@@designHeight@@;
+	height:@@designHeight@@ !important;
 	background: @@designBackgroundBarColor@@;
 }
 #__WID__.progress .indicator {
