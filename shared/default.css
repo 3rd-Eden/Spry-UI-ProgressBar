@@ -1,0 +1,15 @@
+/*
+	Default styling for the widgets that is used in the testcases
+*/
+div.progress {
+	position:relative;
+	display:block;
+	width:550px;
+	padding:2px;
+	border:1px solid #ccc;
+}
+	div.progress .bar {
+		display:block;
+		height:26px !important;
+		background:#093;
+	}

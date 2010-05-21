@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Test: increasing the percentage</title>
+<link type="text/css" rel="stylesheet" href="../../shared/default.css" />
+<script type="text/javascript" src="../../1.6.1/SpryDOMUtils.js"></script>
+<script type="text/javascript" src="../../1.6.1/SpryEffects.js"></script>
+<script type="text/javascript" src="../../1.6.1/SpryProgressBar.js"></script>
+
+<!-- used for the test cases -->
+<script type="text/javascript" src="../../shared/evidence.js"></script>
+<script type="text/javascript">
+Evidence.TestCase.extend( 'percentages', {
+	test_defaultPercentage: function( t ){
+		var bar = Spry.$$( "#example1 .bar" );
+		
+		// inital percentage should be 0px as the default percentage of the widget is set to 0
+		t.assertEqual( 0, bar[0].style.width.replace( /[a-z]/ig, "" ) );
+	},
+	test_userPercentage: function( t ){
+		var bar = Spry.$$( "#example2 .bar" );
+		
+		// inital percentage should be 0px as the default percentage of the widget is set to 0
+		t.assertEqual( 275, bar[0].style.width.replace( /[a-z]/ig, "" ) );
+	}
+});
+Evidence.TestCase.extend( 'increasepercentage', {
+	test_defaultIncrease: function( t ){
+		var bar = Spry.$$( "#example1 .bar" );
+		
+		t.pause();
+		
+		progress.setPercentage("50%", false, function(){
+			t.resume(function(a) {
+				t.assertEqual( 275, bar[0].style.width.replace( /[a-z]/ig, "" ) );
+			});
+		});
+	},
+	test_userIncrease: function( t ){
+		var bar = Spry.$$( "#example2 .bar" );
+		
+		t.pause();
+		
+		progress2.setPercentage("100%", false, function(){
+			t.resume(function(a) {
+				t.assertEqual( progress2.initialWidth, bar[0].style.width.replace( /[a-z]/ig, "" ) );
+			});
+		});
+	}
+});
+Evidence.TestCase.extend( 'reset', {
+	test_defaultReset: function( t ){
+		var bar = Spry.$$( "#example1 .bar" );
+		
+		t.pause();
+		progress.addObserver(
+			{
+				onReset:function(){
+					t.resume(function(a) {
+						t.assertEqual( 0, bar[0].style.width.replace( /[a-z]/ig, "" ) );
+					});
+				}
+			}
+		)
+		progress.reset();
+	},
+	test_userReset: function( t ){
+		var bar = Spry.$$( "#example2 .bar" );
+		
+		t.pause();
+		progress2.addObserver(
+			{
+				onReset:function(){
+					t.resume(function(a) {
+						t.assertEqual( 0, bar[0].style.width.replace( /[a-z]/ig, "" ) );
+						
+						t.pause();
+						
+						// the show effect also takes 500 miliseconds
+						setTimeout(
+							function(){
+								t.resume(
+									function(){
+										// check if its not hidden anymore
+										t.assert( progress2.element.style !== "none" ) 
+									}
+								)
+							}, 
+							500 
+						);
+					});
+				}
+			}
+		)
+		
+		// the hide effect takes 500 miliseconds to complete, so we going to wide to that is finished
+		// as the test cases are really fast
+		setTimeout( function(){ progress2.reset(); }, 500 );
+	}
+});
+</script>
+</head>
+
+<body>
+<!--  !IMPORTANT due to a bug in Spry Effects module, you are required to add a extra, dummy element inside the .bar element -->
+<div class="progress" id="example1">
+    <span class="bar"><b></b></span>
+</div>
+<div class="progress" id="example2">
+    <span class="bar"><b></b></span>
+</div>
+<script type="text/javascript">
+// construct the progress bars
+var progress = new Spry.Widget.ProgressBar( "#example1" ),
+	progress2 = new Spry.Widget.ProgressBar( "#example2", { percentage: 50 } );
+</script>
+</body>
+</html>
