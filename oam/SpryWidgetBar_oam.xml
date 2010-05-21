@@ -45,10 +45,10 @@
 		]]>
   	</description>
 	<category name="Spry UI" />
-	<require type="javascript" src="1.7/SpryDOMUtils.js" target="Spry-UI-1.7/SpryDOMUtils.js"></require>
-	<require type="javascript" src="1.7/SpryDOMEffects.js" target="Spry-UI-1.7/SpryDOMEffects.js"></require>
-	<require type="javascript" src="1.7/SpryWidget.js" target="Spry-UI-1.7/SpryWidget.js"></require>
-	<require type="javascript" src="1.7/SpryProgressBar.js" target="Spry-UI-1.7/SpryProgressBar.js"></require>
+	<require type="javascript" src="../1.7/SpryDOMUtils.js" target="Spry-UI-1.7/SpryDOMUtils.js"></require>
+	<require type="javascript" src="../1.7/SpryDOMEffects.js" target="Spry-UI-1.7/SpryDOMEffects.js"></require>
+	<require type="javascript" src="../1.7/SpryWidget.js" target="Spry-UI-1.7/SpryWidget.js"></require>
+	<require type="javascript" src="../1.7/SpryProgressBar.js" target="Spry-UI-1.7/SpryProgressBar.js"></require>
 	<content>
 <![CDATA[
 <div id="__WID__" class="progress">
