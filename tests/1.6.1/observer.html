@@ -38,7 +38,7 @@ Evidence.TestCase.extend( 'increasepercentage', {
 				})
 			}
 		};
-		
+		t.assertEqual( 100, progress.percentage );
 		progress.addObserver( observer );
 		setTimeout( function(){ progress.reset(); }, 500 );
 	},
@@ -64,12 +64,17 @@ Evidence.TestCase.extend( 'increasepercentage', {
 	
 	test_4onPercentageSet: function( t ){
 		t.pause();
-		setTimeout( function(){ progress.setPercentage( "70%", 5000 ); progress.addObserver( observer ); }, 1500 );
+		setTimeout( function(){
+				t.assertEqual( 0, progress.percentage );
+				progress.setPercentage( "70%", 5000 ); 
+				progress.addObserver( observer ); 
+		}, 1500 );
 		
 		var observer = {
 			onPercentageSet: function( osbserver, data ){
 				t.resume( function(){
 					t.assertEqual( 70, data );
+					t.assertEqual( 70, progress.percentage );
 					progress.removeObserver( observer );
 				})
 			}

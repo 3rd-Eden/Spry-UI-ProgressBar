@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Test: increasing the percentage</title>
+<link type="text/css" rel="stylesheet" href="../../shared/default.css" />
+<script type="text/javascript" src="../../1.6.1/SpryDOMUtils.js"></script>
+<script type="text/javascript" src="../../1.6.1/SpryEffects.js"></script>
+<script type="text/javascript" src="../../1.6.1/SpryProgressBar.js"></script>
+
+<!-- used for the test cases -->
+<script type="text/javascript" src="../../shared/evidence.js"></script>
+<script type="text/javascript">
+Evidence.TestCase.extend( 'animation_times', {
+	test_30Percentage: function( t ){
+		var bar = Spry.$$( "#example1 .bar" );
+		
+		t.pause();
+		
+		progress.setPercentage( 80, 10000 );
+		
+		setTimeout( function(){
+			t.resume( function(){
+				t.assert(  parseFloat( bar[0].style.width ) < 150 );
+			});
+		}, 2300 )
+	},
+	
+	test_halfbar: function( t ){
+		
+		var bar = Spry.$$( "#example1 .bar" );
+		
+		t.pause();
+		
+		setTimeout( function(){
+			t.resume( function(){
+				t.assert( parseFloat( bar[0].style.width ) < 275 );
+			});
+		}, 3000 )
+	}
+});
+</script>
+</head>
+
+<body>
+<div class="progress" id="example1">
+    <span class="bar"><b></b></span>
+</div>
+
+<script type="text/javascript">
+// construct the progress bars
+var progress = new Spry.Widget.ProgressBar( "#example1" );
+</script>
+</body>
+</html>
