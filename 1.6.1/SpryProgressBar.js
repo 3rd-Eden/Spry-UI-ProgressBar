@@ -40,8 +40,8 @@ Spry.Widget.ProgressBar = function( element, opts ){
 
 // a linear transition
 Spry.Widget.ProgressBar.defaultEaseFunc =  function(time, begin, change, duration){
-	if (time > duration) return change + begin;
-	return begin + (time / duration) * change;
+		if (time > duration) return change + begin;
+		return begin + (time / duration) * change;
 };
 
 Spry.Widget.ProgressBar.config = {
@@ -99,20 +99,20 @@ Spry.Widget.ProgressBar.prototype.setPercentage = function( percentage, duration
 	// create sliding effect
 	this.effect = new Spry.Effect.Slide( this.bar[0], {
 			duration: duration,
-			from: Spry.Effect.getDimensionsRegardlessOfDisplayState( this.bar[0] ).width + "px",
+			from: this.currentWidth + "px",
 			to: to + "px",
 			horizontal: true,
 			transition: this.transition, 
 			finish: callback || null 
 	});
-		
+	
 	this.currentWidth = to;
 	this.percentage = percentage;
 	
 	// add events to the effect so we can fire off our custom notifications as well
 	this.effect.addObserver({
 		onPostEffect: function(){
-			if( that.percentage === 100 ){
+			if( percentage === 100 ){
 				that.notifyObservers( "onComplete" ); // the progressbar has been completed
 			}
 			
@@ -225,7 +225,7 @@ Spry.Widget.ProgressBar.prototype.hide = function(){
 	Spry.Effect.DoFade(
 		this.element, 
 		{ 
-			from:100, 
+			from:100,
 			to: 0,
 			duration:500,
 			finish: function(){

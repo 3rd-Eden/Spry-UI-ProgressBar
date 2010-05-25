@@ -133,7 +133,6 @@ Spry.Widget.ProgressBar.prototype.setPercentage = function( percentage, duration
 						) 
 					);
 				}
-				
 			}
 		}
 		
