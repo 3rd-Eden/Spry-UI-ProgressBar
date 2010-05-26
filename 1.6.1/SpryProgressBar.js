@@ -1,3 +1,4 @@
+/* Copyright Arnout Kazemier, license: github.com/3rd-Eden/Spry-UI-ProgressBar, version: 0.0 for Spry 1.6.1 */
 var Spry;
 if (!Spry) Spry = {};
 if (!Spry.Widget) Spry.Widget = {};
@@ -18,16 +19,16 @@ Spry.Widget.ProgressBar = function( element, opts ){
 	this.currentWidth = this.initialWidth;
 	this.counter = 0;
 	
-	// this activates or resets the progress with the supplied value
-	this.setPercentage( 
-		// set the percentage to the supplied "default" percentage
-		this.percentage, 
-		
-		// just do it quick so user will not notice it
-		1, 
-		
-		// do we have a auto start ? if yes, complete the progress bar with the supplied duration
-		this.autoStart ? function(){ that.setPercentage( 100, that.duration ); }: false );
+	// we are not using our .setPercentage function for this, as it has a slight slowdown due to animation timers
+	// the Spry 1.7 version does not suffer from this limitation. But this workaround works great. 
+	
+	// resets the progress with the supplied value
+	this.bar.setStyle( "width:" +  ( this.currentWidth = ( this.currentWidth / 100 * this.percentage ) ) + "px" );
+	
+	// do we have a auto start ? if yes, complete the progress bar with the supplied duration
+	if( this.autoStart ){
+		this.setPercentage( 100, this.duration );
+	}
 
 	this.addObserver({
 		onComplete: function(){
@@ -66,12 +67,11 @@ Spry.Widget.ProgressBar.config = {
 };
 
 Spry.Widget.ProgressBar.setOptions = function( obj, optionsObj, ignoreUndefinedProps ){
-	if (!optionsObj) return;
+	if(!optionsObj) return;
 	
 	var optionName;	
-	for ( optionName in optionsObj )
-	{
-		if ( ignoreUndefinedProps && optionsObj[optionName] == "undefined" )
+	for( optionName in optionsObj ){
+		if( ignoreUndefinedProps && optionsObj[optionName] == "undefined" )
 			continue;
 			
 		obj[optionName] = optionsObj[optionName];
@@ -84,9 +84,10 @@ Spry.Widget.ProgressBar.prototype.constructor = Spry.Widget.ProgressBar;
 Spry.Widget.ProgressBar.prototype.setPercentage = function( percentage, duration, callback ){
 	// makesure its a valid value
 	percentage = this.cleanPercentage ( percentage ); 
-	duration = duration || this.duration;
-			
+	duration = typeof duration !== "number" ? this.duration : duration;
+	
 	var that = this,
+	
 		// are we increasing or decreasing
 		increase = percentage >= this.percentage,
 		
@@ -95,7 +96,7 @@ Spry.Widget.ProgressBar.prototype.setPercentage = function( percentage, duration
 		
 		// diffence between the current and new percentage
 		difference = increase ? percentage - this.percentage : this.percentage - percentage;
-		
+	
 	// create sliding effect
 	this.effect = new Spry.Effect.Slide( this.bar[0], {
 			duration: duration,

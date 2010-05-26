@@ -1,3 +1,4 @@
+/* Copyright Arnout Kazemier, license: github.com/3rd-Eden/Spry-UI-ProgressBar, version: 0.0 for Spry 1.7 */
 (function(){
 // start component
 if (typeof Spry === "undefined" || !Spry.Utils || !Spry.$$ || !Spry.Effect ){
@@ -79,7 +80,7 @@ Spry.Widget.ProgressBar.prototype.constructor = Spry.Widget.ProgressBar;
 Spry.Widget.ProgressBar.prototype.setPercentage = function( percentage, duration, callback ){
 	// makesure its a valid value
 	percentage = this.cleanPercentage ( percentage ); 
-	duration = duration || this.duration;
+	duration = typeof duration !== "number" ? this.duration : duration;
 					
 	var that = this,
 		// are we increasing or decreasing
