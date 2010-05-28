@@ -20,8 +20,11 @@ Spry.Widget.ProgressBar = function( element, opts ){
 	this.version = "0.0.0";	
 	this.element = Spry.$$( element )[0];
 	this.bar = Spry.$$( "." + this.barClass, this.element );
-	this.initialWidth = parseFloat( this.getStyleProp( this.bar[0], "width" ) ); // getStylePr
+	
+	// IE seems to require the parent node for information
+	this.initialWidth = parseFloat( this.getStyleProp( this.bar[0], "width" ) || this.getStyleProp( this.element, "width" ) ); // getStylePr
 	this.currentWidth = this.initialWidth;
+		
 	this.counter = 0;
 	
 	// this activates or resets the progress with the supplied value
