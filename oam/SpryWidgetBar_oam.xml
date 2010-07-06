@@ -6,7 +6,7 @@
 	
 		id="http://go.spry-it.com/progressbar"
 		name="Spry Widget Progress Bar"
-		version="0.1"
+		version="1.0"
 		aboutUri="http://go.spry-it.com/progressbar">
 	<author name="Arnout Kazemier" website="http://www.Spry-it.com" organization="Spry-it" email="info@3rd-Eden.com" />
 	<icon src="SpryLogo.png" width="98" height="98" />
@@ -55,6 +55,7 @@
 	<div class="bar"></div>
 	<span class="indicator">Progress: <em id="__WID___count">0</em>%</span>
 </div>
+<button type="button" class="add">Add 5%</button> <button type="button" class="remove">Remove 5%</button>
 ]]>
 	</content>
 	<dw:css>
@@ -67,9 +68,9 @@
 	padding: @@designPadding@@;
 	border: @@designBorderPx@@ solid @@designBorderColor@@;
 	
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	border-radius: 3px;
+	-moz-border-radius: @@designBorderRadius@@;
+	-webkit-border-radius: @@designBorderRadius@@;
+	border-radius: @@designBorderRadius@@;
 }
 /*
 	The !important on the height declarating prevents issue in Opera
@@ -80,8 +81,13 @@
 	display:block;
 	height:@@designHeight@@ !important;
 	background: @@designBackgroundBarColor@@;
+	
+	-moz-border-radius: @@designBorderRadius@@;
+	-webkit-border-radius: @@designBorderRadius@@;
+	border-radius: @@designBorderRadius@@;
 }
 #__WID__.progress .indicator {
+	color: @@designFontColor@@;
 	position:absolute; 
 	top: @@indicatorTop@@; 
 	left: @@indicatorLeft@@; 
@@ -98,12 +104,22 @@
 		autoStart: @@autoStart@@,
 		hideOnComplete: @@hideOnComplete@@
 	});
+	
 	// remove the observer and the complete __WID___count element if you do not want to show a progress indicator.
 	__WID__.addObserver({
 			onPercentageChanged: function( widget, data ){
 				Spry.$('__WID___count').innerHTML =  data ;
 			}
 		});
+	
+	// The following lines of code illustrate how you can manually increase the progressbar
+	Spry.$$("button.add").addEventListener("click", function(){
+		__WID__.add( "5%", 500 ); // add 5% to the progressbar and do it in 500 ms
+	});
+	
+	Spry.$$("button.remove").addEventListener("click", function(){
+		__WID__.remove( 5, 500 ); // it doesn't matter if you are using a string or number as value, 5 or "5%" all work 
+	})
 })()
 ]]>
   	</javascript>
@@ -117,7 +133,7 @@
 		<property name="startPercentage" datatype="Number" isInteger="true" minimum="0" maximum="100" defaultValue="0">
 			<title>Start percentage</title>
       	</property>
-      	<property name="autoStart" datatype="Boolean" defaultValue="true">
+      	<property name="autoStart" datatype="Boolean" defaultValue="false">
 			<title>Auto Start ProgressBar</title>
       	</property>
       	<property name="hideOnComplete" datatype="Boolean" defaultValue="false">
@@ -150,8 +166,14 @@
 		<property name="designBorderColor" datatype="String" format="color" defaultValue="#CCCCCC">
 			<title>Border color</title>
 		</property>
+		<property name="designFontColor" datatype="String" format="color" defaultValue="#FFFFFF">
+			<title>Font color</title>
+		</property>
 		<property name="designBorderPx" datatype="String" format="length" defaultValue="1px">
 			<title>Border size</title>
+		</property>
+		<property name="designBorderRadius" datatype="String" format="length" defaultValue="3px">
+			<title>Border radius</title>
 		</property>
 		<property name="designPadding" datatype="String" format="length" defaultValue="2px">
 			<title>Progress Padding</title>
